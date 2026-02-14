@@ -7,6 +7,8 @@ export interface BacktestResult {
   equityCurve: number[];
 }
 
+const TRADING_DAYS_PER_YEAR = 252;
+
 const standardDeviation = (values: number[]): number => {
   if (values.length === 0) {
     return 0;
@@ -23,7 +25,7 @@ export class BacktestService {
   public run({ prices, riskFreeRate }: BacktestInput): BacktestResult {
     const start = prices[0];
     const end = prices[prices.length - 1];
-    const years = prices.length / 252;
+    const years = prices.length / TRADING_DAYS_PER_YEAR;
 
     const cagr = years > 0 ? (end / start) ** (1 / years) - 1 : 0;
 
@@ -45,7 +47,7 @@ export class BacktestService {
     const returns = prices.slice(1).map((price, index) => price / prices[index] - 1);
     const avgReturn = returns.reduce((sum, value) => sum + value, 0) / returns.length;
     const volatility = standardDeviation(returns);
-    const dailyRiskFreeRate = riskFreeRate / 252;
+    const dailyRiskFreeRate = riskFreeRate / TRADING_DAYS_PER_YEAR;
 
     const sharpeRatio = volatility === 0 ? 0 : (avgReturn - dailyRiskFreeRate) / volatility;
 

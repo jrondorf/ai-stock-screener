@@ -1,12 +1,13 @@
 import { type Request, type Response } from 'express';
 
+import { env } from '../../config/env';
 import { authService } from './auth.service';
 import { loginSchema, registerSchema } from './auth.validation';
 
 const cookieConfig = {
   httpOnly: true,
   sameSite: 'strict' as const,
-  secure: process.env.NODE_ENV === 'production'
+  secure: env.nodeEnv === 'production'
 };
 
 const handleAuthError = (res: Response, error: unknown): Response => {

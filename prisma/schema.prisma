@@ -15,6 +15,7 @@ model User {
   portfolios     Portfolio[]
   watchlists     Watchlist[]
   screeners      Screener[]
+  backtests      Backtest[]
   chatSessions   ChatSession[]
   createdAt      DateTime      @default(now())
   updatedAt      DateTime      @updatedAt
